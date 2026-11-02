@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#3558A8">
+<meta name="description" content="Тренажёр по кристаллографии: модели кристаллов, симметрия, проекция, простые формы и символы граней по учебнику Е. Н. Завьялова (МГРИ).">
+<meta name="format-detection" content="telephone=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Кристаллы">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/favicon-64.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<title>Кристаллы — тренажёр</title>
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<header class="appbar"><b>Кристаллы</b><span class="sub">тренажёр по кристаллографии</span><span class="sp"></span><button class="themebtn langbtn" id="langBtn" type="button" aria-label="Язык интерфейса — Language"><span data-l="ru">RU</span><span data-l="en">EN</span></button><button class="themebtn" id="themeBtn" type="button" aria-label="Тема оформления">Тема: авто</button></header>
+<main class="wrap">
+<section class="view" id="view-models">
+<div id="trainer">
+  <div class="prose">
+    <h2>Тренажёр</h2>
+    <p>Выбери модель, вращай её мышью или пальцем и сначала реши сам: вид симметрии, сингония, проекция, простые формы и символы. Потом открывай ответы по одному. Чтобы не подсматривать, скройте названия моделей. Настоящая проверка с оценкой — во вкладке «Контрольная».</p>
+  </div>
+  <div class="bar">
+    <div id="picker" role="group" aria-label="Модели" style="display:grid;gap:12px;width:100%"></div>
+  </div>
+  <div class="bar">
+    <button class="btn" id="rnd" type="button">Случайная модель</button>
+    <label class="toggles"><input type="checkbox" id="exam"> Скрыть названия моделей</label>
+  </div>
+  <div class="desk">
+    <div class="stage">
+      <div class="head"><h3 id="mTitle">—</h3><span class="muted" id="mLike"></span></div>
+      <svg id="view" viewBox="-100 -100 200 200" role="img" aria-label="Вращаемая модель кристалла"></svg>
+      <div class="views" id="views" role="group" aria-label="Стандартные положения модели"></div>
+      <div class="lockbox" id="lockBox"></div>
+      <div class="toggles">
+        <label><input type="checkbox" id="tAxes"> Оси симметрии</label>
+        <label><input type="checkbox" id="tPlanes"> Плоскости</label>
+        <label><input type="checkbox" id="tCoords"> Оси X, Y, Z</label>
+        <label><input type="checkbox" id="tLabels"> Символы граней</label>
+        <label><input type="checkbox" id="tColors"> Раскрасить простые формы</label>
+        <label><input type="checkbox" id="tGlass"> Прозрачная</label>
+        <label><input type="checkbox" id="tSyng" checked> Цвет по сингонии</label>
+      </div>
+      <div class="synglegend" id="syngLegend" aria-label="Цвета сингоний"></div>
+      <p class="muted" style="font-size:13px">Тяни модель, чтобы повернуть. Стрелки на клавиатуре тоже работают, когда модель в фокусе.</p>
+    </div>
+    <div class="answers" id="answers">
+      <details class="ans" id="a1"><summary><span class="t">1. Элементы и вид симметрии</span><span class="s">ответ</span></summary><div class="body" id="b1"></div></details>
+      <details class="ans" id="a2"><summary><span class="t">2. Сингония и стандартная установка</span><span class="s">ответ</span></summary><div class="body" id="b2"></div></details>
+      <details class="ans" id="a3"><summary><span class="t">3. Гномостереографическая проекция</span><span class="s">ответ</span></summary><div class="body" id="b3"></div></details>
+      <details class="ans" id="a4"><summary><span class="t">4. Простые формы и символы граней</span><span class="s">ответ</span></summary><div class="body" id="b4"></div></details>
+    </div>
+  </div>
+</div>
+</section>
+<section class="view" id="view-exam" hidden>
+  <div id="examRoot"></div>
+</section>
+<section class="view" id="view-theory" hidden>
+  <div id="thHome"></div>
+  <div id="thPage" hidden></div>
+</section>
+<section class="view" id="view-progress" hidden>
+  <h2>Прогресс</h2>
+  <div id="progressRoot"></div>
+</section>
+</main>
+<nav class="tabbar" aria-label="Разделы приложения">
+<button type="button" data-go="models"><svg viewBox="0 0 24 24"><path d="M12 3l7 4v10l-7 4-7-4V7z"/><path d="M12 3v18M5 7l7 4 7-4"/></svg><span>Модели</span></button><button type="button" data-go="exam"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg><span>Контрольная</span></button><button type="button" data-go="theory"><svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2z"/><path d="M4 19V5"/></svg><span>Теория</span></button><button type="button" data-go="progress"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>Прогресс</span></button>
+</nav>
+<script src="js/app.68e85bf1f8.js"></script>
+</body>
+</html>
