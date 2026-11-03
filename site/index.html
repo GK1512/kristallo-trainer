@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#3558A8">
+<meta name="description" content="Тренажёр по кристаллографии: модели кристаллов, симметрия, проекция, простые формы и символы граней по учебнику Е. Н. Завьялова (МГРИ).">
+<meta name="format-detection" content="telephone=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Кристаллы">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/favicon-64.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<title>Кристаллы — тренажёр</title>
+<link rel="stylesheet" href="lib/ionic/css/ionic.bundle.css">
+<link rel="stylesheet" href="lib/ionic/css/dark.class.css">
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<ion-app>
+<ion-header class="appbar">
+  <ion-toolbar color="primary">
+    <div slot="start" class="brand"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l8 5v10l-8 5-8-5V7z"/><path d="M4 7l8 5 8-5M12 12v10"/></svg><span><b>Кристаллы</b><small class="sub">тренажёр по кристаллографии</small></span></div>
+    <div slot="end" class="topctl">
+      <ion-segment id="langSeg" value="ru" aria-label="Язык" class="langseg"><ion-segment-button value="ru"><ion-label>RU</ion-label></ion-segment-button><ion-segment-button value="en"><ion-label>EN</ion-label></ion-segment-button></ion-segment>
+      <ion-button id="themeBtn" fill="clear" aria-label="Тема оформления"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg><span id="themeTxt">Тема: авто</span></ion-button>
+    </div>
+  </ion-toolbar>
+</ion-header>
+<ion-content id="main">
+<main class="wrap">
+<section class="view" id="view-models">
+<div id="trainer">
+  <div class="hero">
+    <h2>Тренажёр</h2>
+    <p>Выбери модель, вращай её мышью или пальцем и сначала реши сам: вид симметрии, сингония, проекция, простые формы и символы. Потом открывай ответы по одному. Чтобы не подсматривать, скройте названия моделей. Настоящая проверка с оценкой — во вкладке «Контрольная».</p>
+  </div>
+  <ion-card class="pickcard"><ion-card-content>
+    <div id="picker" role="group" aria-label="Модели"></div>
+    <div class="bar">
+      <ion-button id="rnd" size="small" shape="round"><svg class="ico" slot="start" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.3"/><circle cx="15.5" cy="15.5" r="1.3"/><circle cx="12" cy="12" r="1.3"/></svg>Случайная модель</ion-button>
+      <ion-toggle id="exam" label-placement="end" justify="start">Скрыть названия моделей</ion-toggle>
+    </div>
+  </ion-card-content></ion-card>
+  <div class="desk">
+    <ion-card class="stage"><ion-card-content>
+      <div class="head"><h3 id="mTitle">—</h3><span class="muted" id="mLike"></span></div>
+      <div class="cview main"><svg class="cv-back" viewBox="-100 -100 200 200" aria-hidden="true"></svg><canvas class="cv-gl" data-own="1" aria-hidden="true"></canvas><svg id="view" class="cv-front" viewBox="-100 -100 200 200" role="img" aria-label="Вращаемая модель кристалла"></svg></div>
+      <div class="views" id="views" role="group" aria-label="Стандартные положения модели"></div>
+      <div class="lockbox" id="lockBox"></div>
+      <ion-list class="toggles" lines="none">
+        <ion-item><ion-toggle id="tAxes" justify="space-between">Оси симметрии</ion-toggle></ion-item>
+        <ion-item><ion-toggle id="tPlanes" justify="space-between">Плоскости</ion-toggle></ion-item>
+        <ion-item><ion-toggle id="tCoords" justify="space-between">Оси X, Y, Z</ion-toggle></ion-item>
+        <ion-item><ion-toggle id="tLabels" justify="space-between">Символы граней</ion-toggle></ion-item>
+        <ion-item><ion-toggle id="tColors" justify="space-between">Раскрасить простые формы</ion-toggle></ion-item>
+        <ion-item><ion-toggle id="tGlass" justify="space-between">Прозрачная</ion-toggle></ion-item>
+        <ion-item><ion-toggle id="tSyng" justify="space-between" checked>Цвет по сингонии</ion-toggle></ion-item>
+      </ion-list>
+      <div class="synglegend" id="syngLegend" aria-label="Цвета сингоний"></div>
+      <p class="muted small">Тяни модель, чтобы повернуть. Стрелки на клавиатуре тоже работают, когда модель в фокусе.</p>
+    </ion-card-content></ion-card>
+    <ion-accordion-group id="answers" class="answers" multiple>
+      <ion-accordion value="a1" id="a1"><ion-item slot="header"><ion-label><span class="t">1. Элементы и вид симметрии</span></ion-label><ion-note slot="end" class="s">ответ</ion-note></ion-item><div class="body" slot="content" id="b1"></div></ion-accordion>
+      <ion-accordion value="a2" id="a2"><ion-item slot="header"><ion-label><span class="t">2. Сингония и стандартная установка</span></ion-label><ion-note slot="end" class="s">ответ</ion-note></ion-item><div class="body" slot="content" id="b2"></div></ion-accordion>
+      <ion-accordion value="a3" id="a3"><ion-item slot="header"><ion-label><span class="t">3. Гномостереографическая проекция</span></ion-label><ion-note slot="end" class="s">ответ</ion-note></ion-item><div class="body" slot="content" id="b3"></div></ion-accordion>
+      <ion-accordion value="a4" id="a4"><ion-item slot="header"><ion-label><span class="t">4. Простые формы и символы граней</span></ion-label><ion-note slot="end" class="s">ответ</ion-note></ion-item><div class="body" slot="content" id="b4"></div></ion-accordion>
+    </ion-accordion-group>
+  </div>
+</div>
+</section>
+<section class="view" id="view-exam" hidden>
+  <div id="examRoot"></div>
+</section>
+<section class="view" id="view-theory" hidden>
+  <div id="thHome"></div>
+  <div id="thPage" hidden></div>
+</section>
+<section class="view" id="view-progress" hidden>
+  <h2>Прогресс</h2>
+  <div id="progressRoot"></div>
+</section>
+</main>
+</ion-content>
+<ion-footer class="tabfoot">
+<ion-tab-bar id="tabbar" class="tabbar" selected-tab="models" aria-label="Разделы приложения">
+  <ion-tab-button tab="models" data-go="models"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 4v10l-7 4-7-4V7z"/><path d="M12 3v18M5 7l7 4 7-4"/></svg><ion-label>Модели</ion-label></ion-tab-button>
+  <ion-tab-button tab="exam" data-go="exam"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg><ion-label>Контрольная</ion-label></ion-tab-button>
+  <ion-tab-button tab="theory" data-go="theory"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2z"/><path d="M4 19V5"/></svg><ion-label>Теория</ion-label></ion-tab-button>
+  <ion-tab-button tab="progress" data-go="progress"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><ion-label>Прогресс</ion-label></ion-tab-button>
+</ion-tab-bar>
+</ion-footer>
+</ion-app>
+<script defer src="lib/three/three.min.js"></script>
+<script type="module" src="lib/ionic/ionic.esm.js"></script>
+<script defer src="js/app.83904f7cd4.js"></script>
+</body>
+</html>
