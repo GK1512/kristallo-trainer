@@ -1,0 +1,45 @@
+name: Публикация
+
+# Этот репозиторий содержит только готовую сборку. Он обновляется автоматически
+# из закрытого репозитория с исходниками; здесь сайт выкладывается на GitHub Pages, а APK — в Releases.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: v
+        run: echo "n=$(cat VERSION)" >> "$GITHUB_OUTPUT"
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deployment
+        uses: actions/deploy-pages@v4
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ steps.v.outputs.n }}
+          name: Сборка ${{ steps.v.outputs.n }}
+          make_latest: true
+          body: |
+            Скачайте файл **kristallo-trainer.apk** ниже и откройте его на телефоне.
+            Постоянная ссылка на последнюю версию:
+            https://github.com/${{ github.repository }}/releases/latest/download/kristallo-trainer.apk
+          files: kristallo-trainer.apk
