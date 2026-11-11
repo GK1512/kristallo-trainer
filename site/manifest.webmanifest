@@ -1,0 +1,17 @@
+{
+  "name": "Кристаллы — тренажёр по кристаллографии",
+  "short_name": "Кристаллы",
+  "description": "Модели кристаллов, симметрия, гномостереографическая проекция, простые формы и символы граней — по учебнику Е. Н. Завьялова (МГРИ).",
+  "lang": "ru",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#F3F6FC",
+  "theme_color": "#3558A8",
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
