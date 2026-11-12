@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#3558A8">
+<meta name="description" content="Тренажёр по кристаллографии: модели кристаллов, симметрия, проекция, простые формы и символы граней по учебнику Е. Н. Завьялова (МГРИ).">
+<meta name="format-detection" content="telephone=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Кристаллы">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/favicon-64.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<title>Кристаллы — тренажёр</title>
+<style>
+/* Заставка при запуске: показывается сразу, пока загружается приложение */
+#splash{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;align-content:center;gap:14px;background:radial-gradient(120% 90% at 30% 15%,#5A7BE0 0%,#3558A8 38%,#25307A 70%,#1A1846 100%);color:#fff;font-family:"Golos Text",system-ui,sans-serif;transition:opacity .5s ease,transform .5s ease;overflow:hidden}
+#splash.hide{opacity:0;transform:scale(1.04);pointer-events:none}
+#splash .sp-cr{width:min(46vw,200px);height:auto;filter:drop-shadow(0 18px 30px rgba(10,10,40,.45));animation:sp-float 3.2s ease-in-out infinite}
+#splash .sp-e{fill:none;stroke:#fff;stroke-width:1.6;stroke-linejoin:round;stroke-dasharray:240;stroke-dashoffset:240;animation:sp-draw 1s ease-out forwards}
+#splash .sp-f{opacity:0;animation:sp-fade .7s ease-out .55s forwards}
+#splash .sp-shine{opacity:0;animation:sp-shine 1.6s ease-in-out .9s infinite}
+#splash .sp-t{font-size:clamp(30px,8vw,44px);font-weight:800;letter-spacing:.16em;text-transform:uppercase;opacity:0;transform:translateY(8px);animation:sp-up .6s ease-out .45s forwards;padding-left:.16em}
+#splash .sp-s{font-size:13px;letter-spacing:.32em;text-transform:uppercase;opacity:0;animation:sp-up .6s ease-out .65s forwards;color:#C9D6F3;padding-left:.32em;text-align:center}
+#splash .sp-bar{width:120px;height:3px;border-radius:3px;background:rgba(255,255,255,.18);overflow:hidden;margin-top:10px}
+#splash .sp-bar i{display:block;width:40%;height:100%;border-radius:3px;background:linear-gradient(90deg,#8FB3FF,#fff);animation:sp-load 1.1s ease-in-out infinite}
+#splash .sp-dot{position:absolute;width:6px;height:6px;border:1.5px solid rgba(255,255,255,.55);transform:rotate(45deg);animation:sp-drift 6s linear infinite}
+@keyframes sp-draw{to{stroke-dashoffset:0}}@keyframes sp-fade{to{opacity:1}}@keyframes sp-up{to{opacity:1;transform:none}}
+@keyframes sp-float{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-8px) rotate(2deg)}}
+@keyframes sp-shine{0%{opacity:0;transform:translateX(-60px)}40%{opacity:.85}100%{opacity:0;transform:translateX(60px)}}
+@keyframes sp-load{0%{transform:translateX(-110%)}100%{transform:translateX(260%)}}
+@keyframes sp-drift{from{transform:translateY(20px) rotate(45deg);opacity:0}20%{opacity:1}to{transform:translateY(-120px) rotate(225deg);opacity:0}}
+@media (prefers-reduced-motion:reduce){#splash *{animation-duration:.01s!important;animation-delay:0s!important;animation-iteration-count:1!important}}
+</style>
+<link rel="stylesheet" href="lib/ionic/css/ionic.bundle.css">
+<link rel="stylesheet" href="lib/ionic/css/dark.class.css">
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div id="splash" role="status" aria-label="Загрузка">
+  <svg class="sp-cr" viewBox="-60 -66 120 132" aria-hidden="true">
+    <defs><linearGradient id="spg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#B9CCFF"/><stop offset="1" stop-color="#6F8FEA"/></linearGradient>
+      <linearGradient id="spg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8EA9F5"/><stop offset="1" stop-color="#4B63C9"/></linearGradient>
+      <linearGradient id="spg3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6D7FE0"/><stop offset="1" stop-color="#3A3F9E"/></linearGradient>
+      <linearGradient id="spsh" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+      <clipPath id="spcl"><polygon points="0,-62 -48,4 0,62 48,-4"/></clipPath></defs>
+    <g class="sp-f"><polygon points="0,-62 -48,4 12,16" fill="url(#spg1)"/><polygon points="0,-62 12,16 48,-4" fill="url(#spg2)"/><polygon points="0,62 -48,4 12,16" fill="url(#spg2)"/><polygon points="0,62 12,16 48,-4" fill="url(#spg3)"/></g>
+    <g clip-path="url(#spcl)"><rect class="sp-shine" x="-30" y="-70" width="30" height="140" fill="url(#spsh)" transform="skewX(-18)"/></g>
+    <path class="sp-e" d="M0,-62 L-48,4 L0,62 L48,-4 Z M0,-62 L12,16 L0,62 M-48,4 L12,16 L48,-4"/>
+    <path class="sp-e" style="stroke-opacity:.35;stroke-dasharray:3 4;animation:none;stroke-dashoffset:0" d="M0,-62 L-12,-16 L0,62 M-48,4 L-12,-16 L48,-4"/>
+  </svg>
+  <div class="sp-t">Кристаллы</div>
+  <div class="sp-s">тренажёр по кристаллографии</div>
+  <div class="sp-bar"><i></i></div>
+  <span class="sp-dot" style="left:12%;top:70%;animation-delay:.2s"></span><span class="sp-dot" style="left:82%;top:64%;animation-delay:1.4s"></span><span class="sp-dot" style="left:28%;top:22%;animation-delay:2.6s"></span><span class="sp-dot" style="left:70%;top:30%;animation-delay:3.4s"></span><span class="sp-dot" style="left:52%;top:84%;animation-delay:.9s"></span>
+</div>
+<ion-app>
+<ion-header class="appbar">
+  <ion-toolbar color="primary">
+    <div slot="start" class="brand"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l8 5v10l-8 5-8-5V7z"/><path d="M4 7l8 5 8-5M12 12v10"/></svg><span><b>Кристаллы</b><small class="sub">тренажёр по кристаллографии</small></span></div>
+    <div slot="end" class="topctl">
+      <ion-segment id="langSeg" value="ru" aria-label="Язык" class="langseg"><ion-segment-button value="ru"><ion-label>RU</ion-label></ion-segment-button><ion-segment-button value="en"><ion-label>EN</ion-label></ion-segment-button></ion-segment>
+      <ion-button id="fbBtn" fill="clear" aria-label="Сообщить об ошибке" title="Сообщить об ошибке"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M12 8v3M12 13.5v.01"/></svg></ion-button>
+      <ion-button id="themeBtn" fill="clear" aria-label="Тема оформления"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg><span id="themeTxt">Тема: авто</span></ion-button>
+    </div>
+  </ion-toolbar>
+</ion-header>
+<ion-content id="main">
+<main class="wrap">
+<section class="view" id="view-models">
+<div id="trainer">
+  <div class="hero" id="heroModels"><div class="hero-deco" aria-hidden="true"><svg viewBox="-50 -50 100 100"><path d="M0,-44 L-34,4 L0,44 L34,-4 Z M0,-44 L9,12 L0,44 M-34,4 L9,12 L34,-4"/></svg><i></i><i></i><i></i></div>
+    <span class="hero-k" id="heroCount">128 моделей · 32 вида · 47 форм</span>
+    <h2>Тренажёр</h2>
+    <p>Выбери модель, вращай её пальцем и сначала реши сам: вид симметрии, сингония, проекция, простые формы и символы. Потом открывай ответы по одному.</p>
+    <div class="hero-steps"><span><b>1</b>Симметрия</span><span><b>2</b>Установка</span><span><b>3</b>Проекция</span><span><b>4</b>Формы и символы</span></div>
+  </div>
+  <ion-card class="pickcard"><ion-card-content>
+    <div id="picker" role="group" aria-label="Модели"></div>
+    <div class="bar">
+      <ion-button id="rnd" size="small" shape="round"><svg class="ico" slot="start" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.3"/><circle cx="15.5" cy="15.5" r="1.3"/><circle cx="12" cy="12" r="1.3"/></svg>Случайная модель</ion-button>
+      <ion-toggle id="exam" label-placement="end" justify="start">Скрыть названия моделей</ion-toggle>
+    </div>
+  </ion-card-content></ion-card>
+  <div class="desk">
+    <ion-card class="stage"><ion-card-content>
+      <div class="head"><h3 id="mTitle">—</h3><span class="muted" id="mLike"></span></div>
+      <div class="cview main"><svg class="cv-back" viewBox="-100 -100 200 200" aria-hidden="true"></svg><canvas class="cv-gl" data-own="1" aria-hidden="true"></canvas><svg id="view" class="cv-front" viewBox="-100 -100 200 200" role="img" aria-label="Вращаемая модель кристалла"></svg></div>
+      <div class="views" id="views" role="group" aria-label="Стандартные положения модели"></div>
+      <div class="lockbox" id="lockBox"></div>
+      <ion-list class="toggles" lines="none">
+        <ion-item><ion-toggle id="tAxes" justify="space-between">Оси симметрии</ion-toggle></ion-item>
+        <ion-item><ion-toggle id="tPlanes" justify="space-between">Плоскости</ion-toggle></ion-item>
+        <ion-item><ion-toggle id="tCoords" justify="space-between">Оси X, Y, Z</ion-toggle></ion-item>
+        <ion-item><ion-toggle id="tLabels" justify="space-between">Символы граней</ion-toggle></ion-item>
+        <ion-item><ion-toggle id="tColors" justify="space-between">Раскрасить простые формы</ion-toggle></ion-item>
+        <ion-item><ion-toggle id="tGlass" justify="space-between">Прозрачная</ion-toggle></ion-item>
+        <ion-item><ion-toggle id="tSyng" justify="space-between" checked>Цвет по сингонии</ion-toggle></ion-item>
+      </ion-list>
+      <div class="synglegend" id="syngLegend" aria-label="Цвета сингоний"></div>
+      <p class="muted small">Тяни модель, чтобы повернуть. Стрелки на клавиатуре тоже работают, когда модель в фокусе.</p>
+    </ion-card-content></ion-card>
+    <ion-accordion-group id="answers" class="answers" multiple>
+      <ion-accordion value="a1" id="a1"><ion-item slot="header"><ion-label><span class="t">1. Элементы и вид симметрии</span></ion-label><ion-note slot="end" class="s">ответ</ion-note></ion-item><div class="body" slot="content" id="b1"></div></ion-accordion>
+      <ion-accordion value="a2" id="a2"><ion-item slot="header"><ion-label><span class="t">2. Сингония и стандартная установка</span></ion-label><ion-note slot="end" class="s">ответ</ion-note></ion-item><div class="body" slot="content" id="b2"></div></ion-accordion>
+      <ion-accordion value="a3" id="a3"><ion-item slot="header"><ion-label><span class="t">3. Гномостереографическая проекция</span></ion-label><ion-note slot="end" class="s">ответ</ion-note></ion-item><div class="body" slot="content" id="b3"></div></ion-accordion>
+      <ion-accordion value="a4" id="a4"><ion-item slot="header"><ion-label><span class="t">4. Простые формы и символы граней</span></ion-label><ion-note slot="end" class="s">ответ</ion-note></ion-item><div class="body" slot="content" id="b4"></div></ion-accordion>
+    </ion-accordion-group>
+    <p class="fbline"><button type="button" class="linkbtn" data-feedback="answer">Нашли ошибку в ответе к этой модели? Напишите автору</button></p>
+  </div>
+</div>
+</section>
+<section class="view" id="view-exam" hidden>
+  <div id="examRoot"></div>
+</section>
+<section class="view" id="view-structs" hidden><div id="k2Home"></div></section>
+<section class="view" id="view-theory" hidden>
+  <div id="thHome"></div>
+  <div id="thPage" hidden></div>
+</section>
+<section class="view" id="view-progress" hidden>
+  <div class="hero"><div class="hero-deco" aria-hidden="true"><svg viewBox="-50 -50 100 100"><path d="M0,-44 L-34,4 L0,44 L34,-4 Z M0,-44 L9,12 L0,44 M-34,4 L9,12 L34,-4"/></svg><i></i><i></i><i></i></div><span class="hero-k">твоя статистика</span><h2>Прогресс</h2><p>Оценки за контрольные, слабые места и модели, на которых чаще ошибаешься.</p></div>
+  <div id="progressRoot"></div>
+</section>
+</main>
+</ion-content>
+<ion-footer class="tabfoot">
+<ion-tab-bar id="tabbar" class="tabbar" selected-tab="models" aria-label="Разделы приложения">
+  <ion-tab-button tab="models" data-go="models"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 4v10l-7 4-7-4V7z"/><path d="M12 3v18M5 7l7 4 7-4"/></svg><ion-label>Модели</ion-label></ion-tab-button>
+  <ion-tab-button tab="structs" data-go="structs"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 8l10 0M7 8l5 9M17 8l-5 9"/><circle cx="6" cy="7" r="3"/><circle cx="18" cy="7" r="3"/><circle cx="12" cy="18" r="3"/></svg><ion-label>Структуры</ion-label></ion-tab-button>
+  <ion-tab-button tab="exam" data-go="exam"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg><ion-label>Контрольная</ion-label></ion-tab-button>
+  <ion-tab-button tab="theory" data-go="theory"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2z"/><path d="M4 19V5"/></svg><ion-label>Теория</ion-label></ion-tab-button>
+  <ion-tab-button tab="progress" data-go="progress"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><ion-label>Прогресс</ion-label></ion-tab-button>
+</ion-tab-bar>
+</ion-footer>
+</ion-app>
+<script defer src="lib/three/three.min.js"></script>
+<script type="module" src="lib/ionic/ionic.esm.js"></script>
+<script defer src="js/app.e93df73a79.js"></script>
+</body>
+</html>
